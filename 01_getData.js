@@ -9,7 +9,9 @@ var tenure = ee.Image('users/mapbiomascerrado1/fundiario_ipam/fundiario');
 var no_info = tenure.updateMask(tenure.eq(0)).remap([0], [400]);
 
 // blend adjust over tenure
-tenure = tenure.blend(no_info);
+territory = tenure.blend(no_info)
+    // rename band to 'tenure'
+      .rename('tenure');
 
 // read mapbiomas collection 7
 var mapbiomas = ee.Image('projects/mapbiomas-workspace/public/collection7/mapbiomas_collection70_integration_v2')
@@ -37,17 +39,10 @@ var pixelArea = ee.Image.pixelArea().divide(10000);
 // for each state
 states_list.forEach(function(state_i) {
 
-  
-});
-
-
-
-
-  
 // convert a complex object to a simple feature collection 
 var convert2table = function (obj) {
     obj = ee.Dictionary(obj);
-      var territory = obj.get('territory');
+      var territory = obj.get('tenure');
       var classesAndAreas = ee.List(obj.get('groups'));
       
       var tableRows = classesAndAreas.map(
@@ -56,10 +51,10 @@ var convert2table = function (obj) {
               var classId = classAndArea.get('class');
               var area = classAndArea.get('sum');
               var tableColumns = ee.Feature(null)
-                  .set('territory', territory)
+                  .set('tenure', territory)
                   .set('class_id', classId)
                   .set('area', area)
-                  .set('file', basename);
+                  .set('state', state_i);
                   
               return tableColumns;
           }
@@ -68,45 +63,62 @@ var convert2table = function (obj) {
       return ee.FeatureCollection(ee.List(tableRows));
   };
   
-  // compute the area
-  var calculateArea = function (image, territory, geometry) {
-      var territotiesData = pixelArea.addBands(territory).addBands(image)
-          .reduceRegion({
-              reducer: ee.Reducer.sum().group(1, 'class').group(1, 'territory'),
-              geometry: geometry,
-              scale: scale,
-              maxPixels: 1e12
-          });
-          
-      territotiesData = ee.List(territotiesData.get('groups'));
-      var areas = territotiesData.map(convert2table);
-      areas = ee.FeatureCollection(areas).flatten();
-      return areas;
+// compute the area
+var calculateArea = function (image, territory, geometry) {
+    var territotiesData = pixelArea.addBands(territory).addBands(image)
+        .reduceRegion({
+            reducer: ee.Reducer.sum().group(1, 'class').group(1, 'territory'),
+            geometry: geometry,
+            scale: scale,
+            maxPixels: 1e12
+        });
+        
+    territotiesData = ee.List(territotiesData.get('groups'));
+    var areas = territotiesData.map(convert2table);
+    areas = ee.FeatureCollection(areas).flatten();
+    return areas;
   };
-  
-  // perform per year 
-  var areas = years.map(
-      function (year) {
-          var image = asset_i.select('classification_' + year);
-          var areas = calculateArea(image, territory, geometry);
-          // set additional properties
-          areas = areas.map(
-              function (feature) {
-                  return feature.set('year', year);
-              }
-          );
-          return areas;
-      }
-  );
-  
-  areas = ee.FeatureCollection(areas).flatten();
-  
-  Export.table.toDrive({
+
+// perform per year 
+var areas = years.map(
+    function (year) {
+        var image = asset_i.select('classification_' + year);
+        var areas = calculateArea(image, territory, geometry);
+        // set additional properties
+        areas = areas.map(
+            function (feature) {
+                return feature.set('year', year);
+            }
+        );
+        return areas;
+    }
+);
+
+// flatten
+areas = ee.FeatureCollection(areas).flatten();
+
+// export table
+Export.table.toDrive({
       collection: areas,
-      description: basename,
-      folder: driverFolder,
+      description: state_i + '_class_per_tenure',
+      folder: 'AREA-EXPORT',
       fileFormat: 'CSV'
   });
+
+});
+
+
+
+
+  
+
+
+  
+
+  
+  
+  
+  
 
 
 
