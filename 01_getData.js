@@ -5,8 +5,11 @@
 // read land-tenure
 var tenure = ee.Image('users/mapbiomascerrado1/fundiario_ipam/fundiario');
 
-// get no information
-var no_info = tenure.updateMask(tenure.eq(0)).aside(Map.addLayer);
+// get no information (0) and change value to 400 (to avoid miss-masking)
+var no_info = tenure.updateMask(tenure.eq(0)).remap([0], [400]);
+
+// blend adjust over tenure
+tenure = tenure.blend(no_info);
 
 // read mapbiomas collection 7
 var mapbiomas = ee.Image('projects/mapbiomas-workspace/public/collection7/mapbiomas_collection70_integration_v2')
@@ -19,23 +22,7 @@ var states = ee.Image('projects/mapbiomas-workspace/AUXILIAR/estados-2016-raster
       .updateMask(tenure);
       
 Map.addLayer(tenure.randomVisualizer(), {}, 'tenure');
-Map.addLayer(mapbiomas.select(['classification_2021']), mapb_pal, 'mapbiomas');
 Map.addLayer(states.randomVisualizer(), {}, 'states');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -49,3 +36,21 @@ var mapb_pal = {'min': 0,
                 'palette': require('users/mapbiomas/modules:Palettes.js')
                 .get('classification6')
               };
+              
+Map.addLayer(mapbiomas.select(['classification_2021']), mapb_pal, 'mapbiomas');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
