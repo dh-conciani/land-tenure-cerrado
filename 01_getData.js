@@ -9,21 +9,21 @@ var tenure = ee.Image('users/mapbiomascerrado1/fundiario_ipam/fundiario');
 var no_info = tenure.updateMask(tenure.eq(0)).remap([0], [400]);
 
 // blend adjust over tenure
-territory = tenure.blend(no_info)
-    // rename band to 'tenure'
-      .rename('tenure');
+var territory = tenure.blend(no_info)
+                  // rename band to 'tenure'
+                  .rename('tenure');
 
 // read mapbiomas collection 7
 var mapbiomas = ee.Image('projects/mapbiomas-workspace/public/collection7/mapbiomas_collection70_integration_v2')
       // clip by reference
-      .updateMask(tenure);
+      .updateMask(territory);
 
 // read states
 var states = ee.Image('projects/mapbiomas-workspace/AUXILIAR/estados-2016-raster')
       // clip by reference
-      .updateMask(tenure);
+      .updateMask(territory);
       
-Map.addLayer(tenure.randomVisualizer(), {}, 'tenure');
+Map.addLayer(territory.randomVisualizer(), {}, 'tenure');
 Map.addLayer(states.randomVisualizer(), {}, 'states');
 
 // define states to be computed (pixel-values)
@@ -31,13 +31,19 @@ var states_list = [21, 22];
 //17, 29 ,51, 15, 52, 53, 31, 50, 35, 41, 11];
 
 // define the years to compute area
-var years = ee.List.sequence({'start': 1985, 'end': 1986, 'step': 1}).getInfo();
+var years = ee.List.sequence({'start': 1985, 'end': 2020, 'step': 1}).getInfo();
 
 // define area unit (hectares)
 var pixelArea = ee.Image.pixelArea().divide(10000);
 
 // for each state
 states_list.forEach(function(state_i) {
+  
+// get mapbiomas classification only for the state_i
+var asset_i = mapbiomas.updateMask(states.eq(state_i));
+
+// get tenure only for the state_i
+var territory_i = territory.updateMask(asset_i.select(0));
 
 // convert a complex object to a simple feature collection 
 var convert2table = function (obj) {
@@ -67,9 +73,9 @@ var convert2table = function (obj) {
 var calculateArea = function (image, territory, geometry) {
     var territotiesData = pixelArea.addBands(territory).addBands(image)
         .reduceRegion({
-            reducer: ee.Reducer.sum().group(1, 'class').group(1, 'territory'),
+            reducer: ee.Reducer.sum().group(1, 'class').group(1, 'tenure'),
             geometry: geometry,
-            scale: scale,
+            scale: 30,
             maxPixels: 1e12
         });
         
@@ -83,7 +89,7 @@ var calculateArea = function (image, territory, geometry) {
 var areas = years.map(
     function (year) {
         var image = asset_i.select('classification_' + year);
-        var areas = calculateArea(image, territory, geometry);
+        var areas = calculateArea(image, territory_i, territory_i.geometry());
         // set additional properties
         areas = areas.map(
             function (feature) {
@@ -107,39 +113,6 @@ Export.table.toDrive({
 
 });
 
-
-
-
-  
-
-
-  
-
-  
-  
-  
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // import mapbiomas palette
 var mapb_pal = {'min': 0,
                 'max': 49,
@@ -148,19 +121,3 @@ var mapb_pal = {'min': 0,
               };
               
 Map.addLayer(mapbiomas.select(['classification_2021']), mapb_pal, 'mapbiomas');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
