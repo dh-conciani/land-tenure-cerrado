@@ -27,11 +27,10 @@ Map.addLayer(territory.randomVisualizer(), {}, 'tenure');
 Map.addLayer(states.randomVisualizer(), {}, 'states');
 
 // define states to be computed (pixel-values)
-var states_list = [21, 22];
-//17, 29 ,51, 15, 52, 53, 31, 50, 35, 41, 11];
+var states_list = [21, 22, 17, 29 ,51, 15, 52, 53, 31, 50, 35, 41, 11];
 
 // define the years to compute area
-var years = ee.List.sequence({'start': 1985, 'end': 2020, 'step': 1}).getInfo();
+var years = ee.List.sequence({'start': 1985, 'end': 2021, 'step': 1}).getInfo();
 
 // define area unit (hectares)
 var pixelArea = ee.Image.pixelArea().divide(10000);
@@ -106,12 +105,13 @@ areas = ee.FeatureCollection(areas).flatten();
 // export table
 Export.table.toDrive({
       collection: areas,
-      description: state_i + '_class_per_tenure',
+      description: state_i + '_class_per_tenure_v2',
       folder: 'AREA-EXPORT',
       fileFormat: 'CSV'
   });
 
 });
+
 
 // import mapbiomas palette
 var mapb_pal = {'min': 0,
