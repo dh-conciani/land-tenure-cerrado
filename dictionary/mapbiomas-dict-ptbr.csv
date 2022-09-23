@@ -1,0 +1,38 @@
+id;mapb_0;mapb_1;mapb_1_2;mapb_2;mapb_3;mapb_4
+0;Não aplica;Não aplica;Não aplica;Não aplica;Não aplica;Não aplica
+1;Natural;Floresta;Floresta;Floresta;Floresta;Floresta
+3;Natural;Floresta;Formação Florestal;Formação Florestal;Formação Florestal;Formação Florestal
+4;Natural;Floresta;Formação Savânica;Formação Savânica;Formação Savânica;Formação Savânica
+5;Natural;Floresta;Formação Florestal;Mangue;Mangue;Mangue
+49;Natural;Floresta;Formação Florestal;Restinga Arborizada;Restinga Arborizada;Restinga Arborizada
+10;Natural;Formação Natural não Florestal;Formação Natural não Florestal;Formação Natural não Florestal;Formação Natural não Florestal;Formação Natural não Florestal
+11;Natural;Formação Natural não Florestal;Campo Alagado e Área Pantanosa;Campo Alagado e Área Pantanosa;Campo Alagado e Área Pantanosa;Campo Alagado e Área Pantanosa
+12;Natural;Formação Natural não Florestal;Formação Campestre;Formação Campestre;Formação Campestre;Formação Campestre
+32;Natural;Formação Natural não Florestal;Formação Campestre;Apicum;Apicum;Apicum
+29;Natural;Formação Natural não Florestal;Afloramento Rochoso;Afloramento Rochoso;Afloramento Rochoso;Afloramento Rochoso
+50;Natural;Formação Natural não Florestal;Outras Formações não Florestais;Restinga Herbácea;Restinga Herbácea;Restinga Herbácea
+13;Natural;Formação Natural não Florestal;Outras Formações não Florestais;Outras Formações não Florestais;Outras Formações não Florestais;Outras Formações não Florestais
+14;Antrópico;Agropecuária;Agropecuária;Agropecuária;Agropecuária;Agropecuária
+15;Antrópico;Agropecuária;Pastagem;Pastagem;Pastagem;Pastagem
+18;Antrópico;Agropecuária;Agricultura;Agricultura;Agricultura;Agricultura
+19;Antrópico;Agropecuária;Lavoura Temporária;Agricultura;Lavoura Temporária;Lavoura Temporária
+39;Antrópico;Agropecuária;Soja;Agricultura;Lavoura Temporária;Soja
+20;Antrópico;Agropecuária;Cana;Agricultura;Lavoura Temporária;Cana
+40;Antrópico;Agropecuária;Lavoura Temporária;Agricultura;Lavoura Temporária;Arroz
+62;Antrópico;Agropecuária;Lavoura Temporária;Agricultura;Lavoura Temporária;Algodão (beta)
+41;Antrópico;Agropecuária;Lavoura Temporária;Agricultura;Lavoura Temporária;Outras Lavouras Temporárias
+36;Antrópico;Agropecuária;Lavoura Perene;Agricultura;Lavoura Perene;Lavoura Perene
+46;Antrópico;Agropecuária;Lavoura Perene;Agricultura;Lavoura Perene;Café
+47;Antrópico;Agropecuária;Lavoura Perene;Agricultura;Lavoura Perene;Citrus
+48;Antrópico;Agropecuária;Lavoura Perene;Agricultura;Lavoura Perene;Outras Lavouras Perenes
+9;Antrópico;Agropecuária;Silvicultura;Silvicultura;Silvicultura;Silvicultura
+21;Antrópico;Agropecuária;Mosaico de Usos;Mosaico de Usos;Mosaico de Usos;Mosaico de Usos
+22;Não aplica;Área não Vegetada;Área não Vegetada;Área não Vegetada;Área não Vegetada;Área não Vegetada
+23;Natural;Área não Vegetada;Área não Vegetada;Praia, Duna e Areal;Praia, Duna e Areal;Praia, Duna e Areal
+24;Antrópico;Área não Vegetada;Área Urbanizada;Área Urbanizada;Área Urbanizada;Área Urbanizada
+30;Antrópico;Área não Vegetada;Mineração;Mineração;Mineração;Mineração
+25;Não aplica;Área não Vegetada;Área não Vegetada;Outras Áreas não Vegetadas;Outras Áreas não Vegetadas;Outras Áreas não Vegetadas
+26;Não aplica;Corpo D'água;Corpo D'água;Corpo D'água;Corpo D'água;Corpo D'água
+33;Não aplica;Corpo D'água;Corpo D'água;Rio, Lago e Oceano;Rio, Lago e Oceano;Rio, Lago e Oceano
+31;Antrópico;Corpo D'água;Corpo D'água;Aquicultura;Aquicultura;Aquicultura
+27;Não aplica;Não observado;Não observado;Não observado;Não observado;Não observado

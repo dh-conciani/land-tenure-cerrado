@@ -1,0 +1,81 @@
+Value;tenure-l3;tenure-l2;tenure-l1
+400;Sem informação;Sem informação;Sem informação
+1;TI homologada_regularizada;TI;TI
+2;TI outras;TI;TI
+3;UCPI Federal;UCPI Federal;UC
+4;UCPI Estadual;UCPI Estadual;UC
+5;UCUS Federal;UCUS Federal;UC
+6;UCUS Estadual/Municipal;UCUS Estadual/Municipal;UC
+7;Área militar;Área militar;Área militar
+8;Quilombos federal;Quilombos federal;Quilombo
+9;Quilombos estadual;Quilombos estadual;Quilombo
+10;Assentamento Federal;Assentamento Federal;Assentamento
+11;Assentamento Estadual;Assentamento Estadual;Assentamento
+12;APA e ARIE Federal (UCUS);APA e ARIE Federal (UCUS);APA
+13;APA e ARIE Estadual/Municipal (UCUS);APA e ARIE Estadual/Municipal (UCUS);APA
+14;SIGEF_SNCI Privado_Pequeno (IR);SIGEF_SNCI Privado_Pequeno (IR);IR
+15;SIGEF_SNCI Privado_Medio (IR);SIGEF_SNCI Privado_Medio (IR);IR
+16;SIGEF_SNCI Privado_Grande (IR);SIGEF_SNCI Privado_Grande (IR);IR
+17;FPND Federal;FPND Federal;FPND
+18;FPND Estadual;FPND Estadual;FPND
+19;TP Federal;TP Federal;TP Federal
+100;CAR_Pequeno;CAR_Pequeno;IR
+101;CAR_Pequeno_sobreposiçãoTI homologada_regularizada;TI;TI
+102;CAR_Pequeno_sobreposiçãoTI outras;TI;TI
+103;CAR_Pequeno_sobreposiçãoUCPI Federal;UCPI Federal;UC
+104;CAR_Pequeno_sobreposiçãoUCPI Estadual;UCPI Estadual;UC
+105;CAR_Pequeno_sobreposiçãoUCUS Federal;UCUS Federal;UC
+106;CAR_Pequeno_sobreposiçãoUCUS Estadual/Municipal;UCUS Estadual/Municipal;UC
+107;CAR_Pequeno_sobreposiçãoÁrea militar;Área militar;Área militar
+108;CAR_Pequeno_sobreposiçãoQuilombos federal;Quilombos federal;Quilombo
+109;CAR_Pequeno_sobreposiçãoQuilombos estadual;Quilombos estadual;Quilombo
+110;CAR_Pequeno_sobreposiçãoAssentamento Federal;Assentamento Federal;Assentamento
+111;CAR_Pequeno_sobreposiçãoAssentamento Estadual;Assentamento Estadual;Assentamento
+112;CAR_Pequeno_sobreposiçãoAPA e ARIE Federal (UCUS);APA e ARIE Federal (UCUS);APA
+113;CAR_Pequeno_sobreposiçãoAPA e ARIE Estadual/Municipal (UCUS);APA e ARIE Estadual/Municipal (UCUS);APA
+114;CAR_Pequeno_sobreposiçãoSIGEF_SNCI Privado_Pequeno (IR);SIGEF_SNCI Privado_Pequeno (IR);IR
+115;CAR_Pequeno_sobreposiçãoSIGEF_SNCI Privado_Medio (IR);SIGEF_SNCI Privado_Medio (IR);IR
+116;CAR_Pequeno_sobreposiçãoSIGEF_SNCI Privado_Grande (IR);SIGEF_SNCI Privado_Grande (IR);IR
+117;CAR_Pequeno_sobreposiçãoFPND Federal;FPND Federal;FPND
+118;CAR_Pequeno_sobreposiçãoFPND Estadual;FPND Estadual;FPND
+119;CAR_Pequeno_sobreposiçãoTP Federal;CAR_Pequeno;IR
+200;CAR_médio;CAR_médio;IR
+201;CAR_médio_sobreposiçãoTI homologada_regularizada;TI;TI
+202;CAR_médio_sobreposiçãoTI outras;TI;TI
+203;CAR_médio_sobreposiçãoUCPI Federal;UCPI Federal;UC
+204;CAR_médio_sobreposiçãoUCPI Estadual;UCPI Estadual;UC
+205;CAR_médio_sobreposiçãoUCUS Federal;UCUS Federal;UC
+206;CAR_médio_sobreposiçãoUCUS Estadual/Municipal;UCUS Estadual/Municipal;UC
+207;CAR_médio_sobreposiçãoÁrea militar;Área militar;Área militar
+208;CAR_médio_sobreposiçãoQuilombos federal;Quilombos federal;Quilombo
+209;CAR_médio_sobreposiçãoQuilombos estadual;Quilombos estadual;Quilombo
+210;CAR_médio_sobreposiçãoAssentamento Federal;Assentamento Federal;Assentamento
+211;CAR_médio_sobreposiçãoAssentamento Estadual;Assentamento Estadual;Assentamento
+212;CAR_médio_sobreposiçãoAPA e ARIE Federal (UCUS);APA e ARIE Federal (UCUS);APA
+213;CAR_médio_sobreposiçãoAPA e ARIE Estadual/Municipal (UCUS);APA e ARIE Estadual/Municipal (UCUS);APA
+214;CAR_médio_sobreposiçãoSIGEF_SNCI Privado_Pequeno (IR);SIGEF_SNCI Privado_Pequeno (IR);IR
+215;CAR_médio_sobreposiçãoSIGEF_SNCI Privado_Medio (IR);SIGEF_SNCI Privado_Medio (IR);IR
+216;CAR_médio_sobreposiçãoSIGEF_SNCI Privado_Grande (IR);SIGEF_SNCI Privado_Grande (IR);IR
+217;CAR_médio_sobreposiçãoFPND Federal;FPND Federal;FPND
+218;CAR_médio_sobreposiçãoFPND Estadual;FPND Estadual;FPND
+219;CAR_médio_sobreposiçãoTP Federal;CAR_médio;IR
+300;CAR_grande;CAR_grande;IR
+301;CAR_grande_sobreposiçãoTI homologada_regularizada;TI;TI
+302;CAR_grande_sobreposiçãoTI outras;TI;TI
+303;CAR_grande_sobreposiçãoUCPI Federal;UCPI Federal;UC
+304;CAR_grande_sobreposiçãoUCPI Estadual;UCPI Estadual;UC
+305;CAR_grande_sobreposiçãoUCUS Federal;UCUS Federal;UC
+306;CAR_grande_sobreposiçãoUCUS Estadual/Municipal;UCUS Estadual/Municipal;UC
+307;CAR_grande_sobreposiçãoÁrea militar;Área militar;Área militar
+308;CAR_grande_sobreposiçãoQuilombos federal;Quilombos federal;Quilombo
+309;CAR_grande_sobreposiçãoQuilombos estadual;Quilombos estadual;Quilombo
+310;CAR_grande_sobreposiçãoAssentamento Federal;Assentamento Federal;Assentamento
+311;CAR_grande_sobreposiçãoAssentamento Estadual;Assentamento Estadual;Assentamento
+312;CAR_grande_sobreposiçãoAPA e ARIE Federal (UCUS);APA e ARIE Federal (UCUS);APA
+313;CAR_grande_sobreposiçãoAPA e ARIE Estadual/Municipal (UCUS);APA e ARIE Estadual/Municipal (UCUS);APA
+314;CAR_grande_sobreposiçãoSIGEF_SNCI Privado_Pequeno (IR);SIGEF_SNCI Privado_Pequeno (IR);IR
+315;CAR_grande_sobreposiçãoSIGEF_SNCI Privado_Medio (IR);SIGEF_SNCI Privado_Medio (IR);IR
+316;CAR_grande_sobreposiçãoSIGEF_SNCI Privado_Grande (IR);SIGEF_SNCI Privado_Grande (IR);IR
+317;CAR_grande_sobreposiçãoFPND Federal;FPND Federal;FPND
+318;CAR_grande_sobreposiçãoFPND Estadual;FPND Estadual;FPND
+319;CAR_grande_sobreposiçãoTP Federal;CAR_grande;IR
