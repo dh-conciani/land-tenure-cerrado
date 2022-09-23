@@ -15,6 +15,9 @@ tenure_dict <- read.csv('./dictionary/tenure-dict.csv', sep= ';')
 ## import states dictionary
 state_dict <- read.csv('./dictionary/state-dict.csv', sep= ';')
 
+## import mapbiomas dictionary
+mapbiomas_dict <- read.csv('./dictionary/mapbiomas-dict-ptbr.csv', sep= ';')
+
 ## create recipe to receive data
 data <- as.data.frame(NULL)
 ## for each fiel (state)
@@ -56,7 +59,7 @@ recipe2 <- as.data.frame(NULL)
 for (k in 1:length(unique(data$state))) {
   ## for each unique value, get mean in n levels
   y <- subset(state_dict, id == unique(data$state)[k])
-  ## select matched land tenure 
+  ## select matched state
   z <- subset(data, state == unique(data$state)[k])
   ## apply tenure translation for each level
   z$state_sig <- gsub(paste0('^',y$id,'$'), y$state, z$state)
@@ -67,3 +70,27 @@ for (k in 1:length(unique(data$state))) {
 ## empty bin
 rm(data, k, y, z)
 
+## create recipe to translate mapbiomas classes
+data <- as.data.frame(NULL)
+## for each tenure id
+for (l in 1:length(unique(recipe2$class_id))) {
+  ## for each unique value, get mean in n levels
+  y <- subset(mapbiomas_dict, id == unique(recipe2$class_id)[l])
+  ## select matched class
+  z <- subset(recipe2, class_id == unique(recipe2$class_id)[l])
+  ## apply tenure translation for each level
+  z$mapb_1 <- gsub(paste0('^',y$id,'$'), y$mapb_1, z$class_id)
+  z$mapb_1_2 <- gsub(paste0('^',y$id,'$'), y$mapb_1_2, z$class_id)
+  z$mapb_2 <- gsub(paste0('^',y$id,'$'), y$mapb_2, z$class_id)
+  z$mapb_3 <- gsub(paste0('^',y$id,'$'), y$mapb_3, z$class_id)
+  z$mapb_4 <- gsub(paste0('^',y$id,'$'), y$mapb_4, z$class_id)
+  
+  ## bind into recipe
+  data <- rbind(data, z)
+}
+
+## remove bin
+rm(recipe2, l, y, z)
+
+## export table
+write.csv(data, './table/lcluc-tenure-state/pre-process/cover-per-tenure-per-state.csv')
