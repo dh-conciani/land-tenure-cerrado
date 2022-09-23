@@ -12,6 +12,9 @@ files <- list.files('./table/lcluc-tenure-state/raw', full.names= TRUE)
 ## import land tenure dictionary
 tenure_dict <- read.csv('./dictionary/tenure-dict.csv', sep= ';')
 
+## import states dictionary
+state_dict <- read.csv('./dictionary/state-dict.csv', sep= ';')
+
 ## create recipe to receive data
 data <- as.data.frame(NULL)
 ## for each fiel (state)
@@ -38,10 +41,36 @@ for (i in 1:length(unique(files))) {
     z$tenure_l3 <- gsub(paste0('^',y$Value,'$'), y$tenure.l3, z$tenure)
     ## bind into recipe
     recipe <- rbind(recipe, z)
+    
   }
-  
+  data <- rbind(data, recipe)
 }
 
+
+
+
+
+
+
+
+
+
+## empty bin
+rm(recipe2, data, x, y, z)
+
+## create recipe to translate each state
+recipe2 <- as.data.frame(NULL)
+## for each tenure id
+for (k in 1:length(unique(recipe$state))) {
+  ## for each unique value, get mean in n levels
+  y <- subset(state_dict, state == unique(recipe$state)[k])
+  ## select matched land tenure 
+  z <- subset(recipe, state == unique(recipe$state)[k])
+  ## apply tenure translation for each level
+  z$state_sig <- gsub(paste0('^',y$id,'$'), y$state, z$state)
+  ## bind into recipe
+  recipe <- rbind(recipe, z)
+}
 
 
 
