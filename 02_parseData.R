@@ -43,34 +43,27 @@ for (i in 1:length(unique(files))) {
     recipe <- rbind(recipe, z)
     
   }
+  
   data <- rbind(data, recipe)
 }
 
-
-
-
-
-
-
-
-
-
 ## empty bin
-rm(recipe2, data, x, y, z)
+rm(recipe, i, j, x, y, z)
 
 ## create recipe to translate each state
 recipe2 <- as.data.frame(NULL)
 ## for each tenure id
-for (k in 1:length(unique(recipe$state))) {
+for (k in 1:length(unique(data$state))) {
   ## for each unique value, get mean in n levels
-  y <- subset(state_dict, state == unique(recipe$state)[k])
+  y <- subset(state_dict, id == unique(data$state)[k])
   ## select matched land tenure 
-  z <- subset(recipe, state == unique(recipe$state)[k])
+  z <- subset(data, state == unique(data$state)[k])
   ## apply tenure translation for each level
   z$state_sig <- gsub(paste0('^',y$id,'$'), y$state, z$state)
   ## bind into recipe
-  recipe <- rbind(recipe, z)
+  recipe2 <- rbind(recipe2, z)
 }
 
-
+## empty bin
+rm(data, k, y, z)
 
