@@ -1,4 +1,4 @@
-## get per state data, translate and build the ready-to-use dataset
+## translate and merge gee outputs 
 ## dhemerson.costa@ipam.org.br
 
 ## get libraries
