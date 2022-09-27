@@ -18,6 +18,21 @@ x <- subset(data, year == 2021)
 ## aggregate statistics
 y <- aggregate(x= list(area= x$area), by=list(tenure= x$tenure_l1, class= x$mapb_0), FUN= 'sum')
 
+## aggregate again (overview of cerrado)
+y2 <- subset(y, class != 'Não aplica')
+y2 <- aggregate(x=list(area= y2$area), by= list(tenure= y2$tenure), FUN='sum')
+
+## compute percents
+y2$perc <- round(y2$area/sum(y2$area) * 100, digits=1)
+
+## plot land tenure in 2021
+ggplot(y2, mapping= aes(area= area, fill= tenure, 
+                        label= paste0(tenure, '\n', perc, '% (', round(area/1e6, digits=1),' Mha)'))) +
+  geom_treemap(alpha=0.9, col='gray20') +
+  scale_fill_manual(NULL, values=c('#F0FE0C', '#65923D', '#4FF6E7', '#FD60DE', '#FFDF83', '#AEA985',
+                                   '#999892', '#FA4C2C', '#3F8D80', '#3BDA22')) +
+  geom_treemap_text(size=15) 
+  
 ## plot
 ggplot(data= subset(y, class != "Não aplica"),
        mapping=aes(x= reorder(tenure, area), y= area/1e6, fill= class)) +
@@ -48,7 +63,8 @@ ggplot(data= recipe,
   theme_minimal() +
   xlab(NULL) +
   ylab('Porcentagem %') +
-  coord_flip()
+  coord_flip() +
+  geom_hline(yintercept=53.2, col= 'red', linetype= 'dashed')
   
 ## get only native vegetation
 native <- subset(recipe, class == 'Vegetação Nativa')
@@ -59,8 +75,7 @@ native$perc <- round(native$area/sum(native$area) * 100, digits= 2)
 ## plot
 ggplot(data= native, mapping= aes(x= reorder(tenure, area), y= area/1e6)) +
   geom_bar(stat='identity', fill= '#129912', alpha= 0.8) +
-  geom_text_repel(mapping=aes(label= paste0(round(area/1e6, digits=2), 'Mha - ', round(area/1e6, digits=1), '%')),
-            position = position_stack(vjust = 0.5), col= 'gray10') + 
+  geom_text(mapping=aes(label= paste0(round(area/1e6, digits=2), 'Mha - ', round(area/1e6, digits=1), '%')), hjust=-0.07) +
   theme_minimal() +
   xlab(NULL) +
   ylab('Área (Mha)') +
@@ -107,5 +122,48 @@ ggplot(data= loss, mapping= aes(x=area/1e6, y= loss/1e6)) +
   #scale_x_log10() +
   xlab('Vegetação nativa remanescente (Mha)') +
   ylab('Perda liíquida de vegetação nativa (1985 - 2021, Mha)')
+
+## get native vegetation
+per_class <- subset(data, mapb_1_2 == 'Formação Florestal' | mapb_1_2 == 'Formação Savânica' |
+                      mapb_1_2 == 'Formação Campestre' | mapb_1_2 == 'Campo Alagado e Área Pantanosa')
+
+## aggregate
+per_class <- aggregate(x=list(area= per_class$area), 
+                       by= list(class= per_class$mapb_1_2, tenure= per_class$tenure_l1, year= per_class$year),
+                       FUN='sum')
+
+## get 2021
+x21 <- subset(per_class, year == 2021)
+
+## plot distributions
+ggplot(data= x21, mapping= aes(x= reorder(tenure, area), y= area/1e6, fill= class)) +
+  geom_bar(stat= 'identity') +
+  scale_fill_manual(values=c("#45C2A5", "#B8AF4F", "#006400", "#32CD32")) +
+  theme_minimal() +
+  coord_flip() +
+  ylab('Área (Mha)') +
+  xlab(NULL)
+
+## compuite percents per class
+y21 <- as.data.frame(NULL)
+for (i in 1:length(unique(x21$class))) {
+  ## get class
+  z <- subset(x21, class == unique(x21$class)[i])
+  ## compute percent
+  z$perc <- round(z$area/sum(z$area) * 100, digits=1)
+  ## bind
+  y21 <- rbind(y21, z); rm(z)
+}
+
+## ggtree
+ggplot(y21, mapping= aes(area = area/1e6, fill = tenure, 
+                         label= paste0(tenure, '\n', perc,'% (', round(area/1e6, digits=1), 'Mha)'))) +
+  geom_treemap(alpha=0.9, col= 'white') +
+  scale_fill_manual(NULL, values=c('#F0FE0C', '#65923D', '#4FF6E7', '#FD60DE', '#FFDF83', '#AEA985',
+                                   '#999892', '#FA4C2C', '#3F8D80', '#3BDA22')) +
+  geom_treemap_text(size=15) +
+  facet_wrap(~class) +
+  theme_bw()
+
 
 
