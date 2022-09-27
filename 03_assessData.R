@@ -64,7 +64,7 @@ ggplot(data= recipe,
   xlab(NULL) +
   ylab('Porcentagem %') +
   coord_flip() +
-  geom_hline(yintercept=53.2, col= 'red', linetype= 'dashed')
+  geom_hline(yintercept=50, col= 'red', linetype= 'dashed')
   
 ## get only native vegetation
 native <- subset(recipe, class == 'Vegetação Nativa')
@@ -81,12 +81,111 @@ ggplot(data= native, mapping= aes(x= reorder(tenure, area), y= area/1e6)) +
   ylab('Área (Mha)') +
   coord_flip()
 
+## compute loss of native vegetation
+## get 1985 and 2021 data
+x <- subset(data, year == 1985 & mapb_0 == 'Vegetação Nativa' |year == 2021 & mapb_0 == 'Vegetação Nativa')
+## aggregate per year
+y <- aggregate(x=list(area= x$area), by= list(class= x$mapb_0, year= x$year, tenure= x$tenure_l1), FUN='sum')
+## compute loss
+loss <- as.data.frame(NULL)
+for (i in 1:length(unique(y$tenure))) {
+  ## subset
+  z <- subset(y, tenure == unique(y$tenure)[i])
+  ## compute loss
+  z$loss <- z$area[1] - z$area[2]
+  ## get relative loss (cmparting total to 1985)
+  z$rel_loss <- round(z$loss/z$area * 100, digits=1)[1]
+  z <- z[2,]
+  ## bind
+  loss <- rbind(z, loss); rm(z)
+}
+
+## compuite perc in relation to the total
+loss$perc_tot <- round(loss$loss/sum(loss$loss) * 100, digits=2)
+
+## plot loss
+ggplot(data= loss, mapping= aes(x= reorder(tenure, area), y= loss/1e6)) +
+  geom_bar(stat='identity', fill= 'tomato1', alpha=0.8) +
+  geom_text_repel(mapping=aes(label= paste0(round(loss/1e6, digits=2), 'Mha - ', perc_tot, '%'))) +
+  coord_flip() +
+  theme_minimal() +
+  xlab(NULL) +
+  ylab('Área (Mha)')
 
 
+## plot relation among tenure and loss
+# ggplot(data= loss, mapping= aes(x=area/1e6, y= loss/1e6)) +
+#   geom_text_repel(mapping= aes(label=tenure), size=3) +
+#   geom_point(mapping=aes(size= rel_loss, col= tenure),alpha=0.7) + 
+#   theme_bw() +
+#   scale_y_log10() +
+#   #scale_x_log10() +
+#   xlab('Vegetação nativa remanescente (Mha)') +
+#   ylab('Perda liíquida de vegetação nativa (1985 - 2021, Mha)')
 
+## zoom to IR
+ir <- subset(data, tenure_l1 == 'IR')
 
+## organize array by property size
+ir$tenure_ir <- 
+  gsub('SIGEF_SNCI Privado_Pequeno', 'Pequeno',
+     gsub('CAR_Pequeno', 'Pequeno',
+          gsub('SIGEF_SNCI Privado_Medio', 'Médio',
+               gsub('CAR_médio', 'Médio',
+                    gsub('SIGEF_SNCI Privado_Grande', 'Grande',
+                         gsub('CAR_grande', 'Grande',
+                              ir$tenure_l2))))))
 
+## select only native vegetation
+ir_n <- subset(ir, mapb_0 == 'Vegetação Nativa')
 
+## aggregate 
+ir_n0 <- aggregate(x= list(area= ir_n$area), by= list(size= ir_n$tenure_ir, year= ir_n$year), FUN= 'sum')
+
+## compute loss by year for each class size
+recipe <- as.data.frame(NULL)
+for (i in 1:length(unique(ir_n0$size))) {
+  ## subset class size
+  x <- subset(ir_n0, size == unique(ir_n0$size)[i])
+  ## create xij to receive data
+  xij <- as.data.frame(NULL)
+  ## compute loss over years
+  for (j in 1:length(unique(ir_n0$year))) {
+    ## if no previous year exists, put 0 
+    if (unique(ir_n0$year)[j] == 1985) {
+      loss <- 0
+    }
+    
+    ## if previous year exists, compute loss
+    if (unique(ir_n0$year)[j] != 1985) {
+      ## get previous year
+      yi <- subset(x, year == unique(ir_n0$year)[j-1])
+      ## get current
+      yij <- subset(x, year == unique(ir_n0$year)[j])
+      ## get loss
+      loss <- yi$area - yij$area
+      
+    }
+    
+    ## insert loss and paste metadata as data.frame
+    r <- as.data.frame(cbind(size = unique(x$size),
+                             year = unique(ir_n0$year)[j],
+                             loss = loss))
+    
+    ## bind into recipe
+    xij <- rbind(xij, r)
+  }
+  
+  ## compute cummulative sum
+  xij$cumsum <- cumsum(xij$loss)
+  
+  ## insert into recipe
+  recipe <- rbind(xij, recipe)
+}
+
+rm(x, loss, yi, yij, xij, r)
+
+## compute cumulative sum
 
 
 
@@ -147,46 +246,5 @@ ggplot(y21, mapping= aes(area = area/1e6, fill = tenure,
   facet_wrap(~class) +
   theme_bw()
 
-## compute loss of native vegetation
-## get 1985 and 2021 data
-x <- subset(data, year == 1985 & mapb_0 == 'Vegetação Nativa' |year == 2021 & mapb_0 == 'Vegetação Nativa')
-## aggregate per year
-y <- aggregate(x=list(area= x$area), by= list(class= x$mapb_0, year= x$year, tenure= x$tenure_l1), FUN='sum')
-## compute loss
-loss <- as.data.frame(NULL)
-for (i in 1:length(unique(y$tenure))) {
-  ## subset
-  z <- subset(y, tenure == unique(y$tenure)[i])
-  ## compute loss
-  z$loss <- z$area[1] - z$area[2]
-  ## get relative loss (cmparting total to 1985)
-  z$rel_loss <- round(z$loss/z$area * 100, digits=1)[1]
-  z <- z[2,]
-  ## bind
-  loss <- rbind(z, loss); rm(z)
-}
-
-## compuite perc in relation to the total
-loss$perc_tot <- round(loss$loss/sum(loss$loss) * 100, digits=2)
-
-## plot loss
-ggplot(data= loss, mapping= aes(x= reorder(tenure, area), y= loss/1e6)) +
-  geom_bar(stat='identity', fill= 'tomato1', alpha=0.8) +
-  geom_text_repel(mapping=aes(label= paste0(round(loss/1e6, digits=2), 'Mha - ', perc_tot, '%'))) +
-  coord_flip() +
-  theme_minimal() +
-  xlab(NULL) +
-  ylab('Área (Mha)')
-
-
-## plot relation among tenure and loss
-ggplot(data= loss, mapping= aes(x=area/1e6, y= loss/1e6)) +
-  geom_text_repel(mapping= aes(label=tenure), size=3) +
-  geom_point(mapping=aes(size= rel_loss, col= tenure),alpha=0.7) + 
-  theme_bw() +
-  scale_y_log10() +
-  #scale_x_log10() +
-  xlab('Vegetação nativa remanescente (Mha)') +
-  ylab('Perda liíquida de vegetação nativa (1985 - 2021, Mha)')
 
 
