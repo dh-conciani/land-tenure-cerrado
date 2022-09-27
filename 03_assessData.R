@@ -187,14 +187,19 @@ for (i in 1:length(unique(ir21$size))) {
 }
 
 ## plot proportions
+ggplot(data= recipe, 
+       mapping= aes(x= reorder(size, area), y= perc, fill= class)) +
+  geom_bar(stat='identity', alpha= 0.8) +
+  geom_text(mapping=aes(label= paste0(perc, '%')), position = position_stack(vjust = .5)) + 
+  scale_fill_manual(NULL, values=c('orange', '#129912')) +
+  theme_minimal() +
+  xlab(NULL) +
+  ylab('Porcentagem %') +
+  coord_flip() +
+  geom_hline(yintercept=50, col= 'red', linetype= 'dashed')
 
 
-
-
-
-
-
-
+## calcular desmatamento
 ## select only native vegetation
 ir_n <- subset(ir, mapb_0 == 'Vegetação Nativa')
 
@@ -255,7 +260,7 @@ ggplot(data= recipe, mapping= aes(x= as.numeric(year), y= cumsum_relative, colou
   geom_point(size=2, mapping=aes(shape= size), alpha= 0.8) +
   geom_smooth(method= 'loess', se= FALSE) +
   #geom_line(alpha=0.2, size=4) +
-  scale_colour_manual('Tamanho da propriedade', values=c('red', 'orange', 'purple')) + 
+  scale_colour_manual('Tamanho da propriedade', values=c('#59B0B4', '#F0C585', '#F384DA')) + 
   theme_minimal() +
   xlab(NULL) +
   ylab('Perda líquida relativa acumulada (%)')
@@ -266,7 +271,7 @@ ggplot(data= recipe, mapping= aes(x= as.numeric(year), y= cumsum/1e6, colour= si
   geom_point(size=2, mapping=aes(shape= size), alpha= 0.8) +
   geom_smooth(method= 'loess', se= FALSE) +
   #geom_line(alpha=0.2, size=4) +
-  scale_colour_manual('Tamanho da propriedade', values=c('red', 'orange', 'purple')) + 
+  scale_colour_manual('Tamanho da propriedade', values=c('#59B0B4', '#F0C585', '#F384DA')) + 
   theme_minimal() +
   xlab(NULL) +
   ylab('Perda líquida absoluta acumulada (Mha)')
