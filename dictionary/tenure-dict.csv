@@ -13,9 +13,9 @@ Value;tenure-l3;tenure-l2;tenure-l1
 11;Assentamento Estadual;Assentamento Estadual;Assentamento
 12;APA e ARIE Federal (UCUS);APA e ARIE Federal (UCUS);APA
 13;APA e ARIE Estadual/Municipal (UCUS);APA e ARIE Estadual/Municipal (UCUS);APA
-14;SIGEF_SNCI Privado_Pequeno (IR);SIGEF_SNCI Privado_Pequeno (IR);IR
-15;SIGEF_SNCI Privado_Medio (IR);SIGEF_SNCI Privado_Medio (IR);IR
-16;SIGEF_SNCI Privado_Grande (IR);SIGEF_SNCI Privado_Grande (IR);IR
+14;SIGEF_SNCI Privado_Pequeno (IR);SIGEF_SNCI Privado_Pequeno;IR
+15;SIGEF_SNCI Privado_Medio (IR);SIGEF_SNCI Privado_Medio;IR
+16;SIGEF_SNCI Privado_Grande (IR);SIGEF_SNCI Privado_Grande;IR
 17;FPND Federal;FPND Federal;FPND
 18;FPND Estadual;FPND Estadual;FPND
 19;TP Federal;TP Federal;TP Federal
@@ -33,9 +33,9 @@ Value;tenure-l3;tenure-l2;tenure-l1
 111;CAR_Pequeno_sobreposiçãoAssentamento Estadual;Assentamento Estadual;Assentamento
 112;CAR_Pequeno_sobreposiçãoAPA e ARIE Federal (UCUS);APA e ARIE Federal (UCUS);APA
 113;CAR_Pequeno_sobreposiçãoAPA e ARIE Estadual/Municipal (UCUS);APA e ARIE Estadual/Municipal (UCUS);APA
-114;CAR_Pequeno_sobreposiçãoSIGEF_SNCI Privado_Pequeno (IR);SIGEF_SNCI Privado_Pequeno (IR);IR
-115;CAR_Pequeno_sobreposiçãoSIGEF_SNCI Privado_Medio (IR);SIGEF_SNCI Privado_Medio (IR);IR
-116;CAR_Pequeno_sobreposiçãoSIGEF_SNCI Privado_Grande (IR);SIGEF_SNCI Privado_Grande (IR);IR
+114;CAR_Pequeno_sobreposiçãoSIGEF_SNCI Privado_Pequeno (IR);SIGEF_SNCI Privado_Pequeno;IR
+115;CAR_Pequeno_sobreposiçãoSIGEF_SNCI Privado_Medio (IR);SIGEF_SNCI Privado_Medio;IR
+116;CAR_Pequeno_sobreposiçãoSIGEF_SNCI Privado_Grande (IR);SIGEF_SNCI Privado_Grande;IR
 117;CAR_Pequeno_sobreposiçãoFPND Federal;FPND Federal;FPND
 118;CAR_Pequeno_sobreposiçãoFPND Estadual;FPND Estadual;FPND
 119;CAR_Pequeno_sobreposiçãoTP Federal;CAR_Pequeno;IR
@@ -53,9 +53,9 @@ Value;tenure-l3;tenure-l2;tenure-l1
 211;CAR_médio_sobreposiçãoAssentamento Estadual;Assentamento Estadual;Assentamento
 212;CAR_médio_sobreposiçãoAPA e ARIE Federal (UCUS);APA e ARIE Federal (UCUS);APA
 213;CAR_médio_sobreposiçãoAPA e ARIE Estadual/Municipal (UCUS);APA e ARIE Estadual/Municipal (UCUS);APA
-214;CAR_médio_sobreposiçãoSIGEF_SNCI Privado_Pequeno (IR);SIGEF_SNCI Privado_Pequeno (IR);IR
-215;CAR_médio_sobreposiçãoSIGEF_SNCI Privado_Medio (IR);SIGEF_SNCI Privado_Medio (IR);IR
-216;CAR_médio_sobreposiçãoSIGEF_SNCI Privado_Grande (IR);SIGEF_SNCI Privado_Grande (IR);IR
+214;CAR_médio_sobreposiçãoSIGEF_SNCI Privado_Pequeno (IR);SIGEF_SNCI Privado_Pequeno;IR
+215;CAR_médio_sobreposiçãoSIGEF_SNCI Privado_Medio (IR);SIGEF_SNCI Privado_Medio;IR
+216;CAR_médio_sobreposiçãoSIGEF_SNCI Privado_Grande (IR);SIGEF_SNCI Privado_Grande;IR
 217;CAR_médio_sobreposiçãoFPND Federal;FPND Federal;FPND
 218;CAR_médio_sobreposiçãoFPND Estadual;FPND Estadual;FPND
 219;CAR_médio_sobreposiçãoTP Federal;CAR_médio;IR
@@ -73,9 +73,9 @@ Value;tenure-l3;tenure-l2;tenure-l1
 311;CAR_grande_sobreposiçãoAssentamento Estadual;Assentamento Estadual;Assentamento
 312;CAR_grande_sobreposiçãoAPA e ARIE Federal (UCUS);APA e ARIE Federal (UCUS);APA
 313;CAR_grande_sobreposiçãoAPA e ARIE Estadual/Municipal (UCUS);APA e ARIE Estadual/Municipal (UCUS);APA
-314;CAR_grande_sobreposiçãoSIGEF_SNCI Privado_Pequeno (IR);SIGEF_SNCI Privado_Pequeno (IR);IR
-315;CAR_grande_sobreposiçãoSIGEF_SNCI Privado_Medio (IR);SIGEF_SNCI Privado_Medio (IR);IR
-316;CAR_grande_sobreposiçãoSIGEF_SNCI Privado_Grande (IR);SIGEF_SNCI Privado_Grande (IR);IR
+314;CAR_grande_sobreposiçãoSIGEF_SNCI Privado_Pequeno (IR);SIGEF_SNCI Privado_Pequeno;IR
+315;CAR_grande_sobreposiçãoSIGEF_SNCI Privado_Medio (IR);SIGEF_SNCI Privado_Medio;IR
+316;CAR_grande_sobreposiçãoSIGEF_SNCI Privado_Grande (IR);SIGEF_SNCI Privado_Grande;IR
 317;CAR_grande_sobreposiçãoFPND Federal;FPND Federal;FPND
 318;CAR_grande_sobreposiçãoFPND Estadual;FPND Estadual;FPND
 319;CAR_grande_sobreposiçãoTP Federal;CAR_grande;IR
