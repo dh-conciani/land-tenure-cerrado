@@ -75,7 +75,7 @@ native$perc <- round(native$area/sum(native$area) * 100, digits= 2)
 ## plot
 ggplot(data= native, mapping= aes(x= reorder(tenure, area), y= area/1e6)) +
   geom_bar(stat='identity', fill= '#129912', alpha= 0.8) +
-  geom_text(mapping=aes(label= paste0(round(area/1e6, digits=2), 'Mha - ', round(area/1e6, digits=1), '%')), hjust=-0.07) +
+  geom_text(mapping=aes(label= paste0(round(area/1e6, digits=2), 'Mha - ', perc, '%')), hjust=-0.07) +
   theme_minimal() +
   xlab(NULL) +
   ylab('Área (Mha)') +
@@ -128,13 +128,72 @@ ir <- subset(data, tenure_l1 == 'IR')
 
 ## organize array by property size
 ir$tenure_ir <- 
-  gsub('SIGEF_SNCI Privado_Pequeno', 'Pequeno',
-     gsub('CAR_Pequeno', 'Pequeno',
-          gsub('SIGEF_SNCI Privado_Medio', 'Médio',
-               gsub('CAR_médio', 'Médio',
-                    gsub('SIGEF_SNCI Privado_Grande', 'Grande',
-                         gsub('CAR_grande', 'Grande',
+  gsub('SIGEF_SNCI Privado_Pequeno', 'Pequena (<4 MF)',
+     gsub('CAR_Pequeno', 'Pequena (<4 MF)',
+          gsub('SIGEF_SNCI Privado_Medio', 'Média (>4 & <15 MF)',
+               gsub('CAR_médio', 'Média (>4 & <15 MF)',
+                    gsub('SIGEF_SNCI Privado_Grande', 'Grande (>15 MF)',
+                         gsub('CAR_grande', 'Grande (>15 MF)',
                               ir$tenure_l2))))))
+
+## get only 2021
+ir21 <- subset(ir, year == 2021)
+
+## aggregate native vegetation vs. anthropic
+ir21 <- aggregate(x=list(area= ir21$area), by=list(size= ir21$tenure_ir), FUN= 'sum')
+## get perc
+ir21$perc <- round(ir21$area/sum(ir21$area) * 100, digits=1)
+
+## plot size of each IR class size
+ggplot(ir21, mapping= aes(area= area, fill= size,
+                          label=paste0(size, '\n', perc, '% (', round(area/1e6, digits=1), ' Mha)'))) +
+  geom_treemap(alpha=1, col='gray20') +
+  scale_fill_manual('Tamanho da propriedade', values=c('#59B0B4', '#F0C585', '#F384DA')) + 
+  geom_treemap_text(size=13) 
+
+
+## get only native
+ir21 <- subset(ir, year == 2021 & mapb_0 == 'Vegetação Nativa')
+
+## aggregate
+ir21 <- aggregate(x=list(area= ir21$area), by=list(size= ir21$tenure_ir), FUN= 'sum')
+## calc perc
+ir21$perc <- round(ir21$area/sum(ir21$area) * 100, digits=1)
+
+## plot native vegetation
+ggplot(data= ir21, mapping= aes(x= reorder(size, area), y= area/1e6)) +
+  geom_bar(stat='identity', fill= '#129912', alpha= 0.8) +
+  geom_text(mapping=aes(label= paste0(round(area/1e6, digits=2), 'Mha - ', perc, '%')), hjust=1) +
+  coord_flip() +
+  theme_minimal() +
+  xlab(NULL) +
+  ylab('Área (Mha)')
+
+## compute native vs anthropic
+ir21 <- subset(ir, year == 2021 & mapb_0 != 'Não aplica')
+
+## aggregate
+ir21 <- aggregate(x=list(area= ir21$area), by=list(size= ir21$tenure_ir, class= ir21$mapb_0), FUN= 'sum')
+
+## compute proportions
+recipe <- as.data.frame(NULL)
+for (i in 1:length(unique(ir21$size))) {
+  ## get size i
+  x <- subset(ir21, size == unique(ir21$size)[i])
+  ## compute proportion
+  x$perc <- round(x$area/sum(x$area) * 100, digits=1)
+  ## bind
+  recipe <- rbind(x, recipe); rm(x)
+}
+
+## plot proportions
+
+
+
+
+
+
+
 
 ## select only native vegetation
 ir_n <- subset(ir, mapb_0 == 'Vegetação Nativa')
@@ -154,6 +213,7 @@ for (i in 1:length(unique(ir_n0$size))) {
     ## if no previous year exists, put 0 
     if (unique(ir_n0$year)[j] == 1985) {
       loss <- 0
+      relative_loss <- 0
     }
     
     ## if previous year exists, compute loss
@@ -164,13 +224,16 @@ for (i in 1:length(unique(ir_n0$size))) {
       yij <- subset(x, year == unique(ir_n0$year)[j])
       ## get loss
       loss <- yi$area - yij$area
+      ## get relative loss
+      relative_loss <- loss / yi$area * 100
       
     }
     
     ## insert loss and paste metadata as data.frame
     r <- as.data.frame(cbind(size = unique(x$size),
                              year = unique(ir_n0$year)[j],
-                             loss = loss))
+                             loss = loss,
+                             relative_loss = relative_loss))
     
     ## bind into recipe
     xij <- rbind(xij, r)
@@ -178,17 +241,35 @@ for (i in 1:length(unique(ir_n0$size))) {
   
   ## compute cummulative sum
   xij$cumsum <- cumsum(xij$loss)
+  xij$cumsum_relative <- cumsum(xij$relative_loss)
+  
   
   ## insert into recipe
   recipe <- rbind(xij, recipe)
 }
 
-rm(x, loss, yi, yij, xij, r)
+rm(x, loss, yi, yij, xij, r, relative_loss)
 
-## compute cumulative sum
+## plot cummulative (relative)
+ggplot(data= recipe, mapping= aes(x= as.numeric(year), y= cumsum_relative, colour= size)) +
+  geom_point(size=2, mapping=aes(shape= size), alpha= 0.8) +
+  geom_smooth(method= 'loess', se= FALSE) +
+  #geom_line(alpha=0.2, size=4) +
+  scale_colour_manual('Tamanho da propriedade', values=c('red', 'orange', 'purple')) + 
+  theme_minimal() +
+  xlab(NULL) +
+  ylab('Perda líquida relativa acumulada (%)')
 
 
-
+## plot cummulative (absolute)
+ggplot(data= recipe, mapping= aes(x= as.numeric(year), y= cumsum/1e6, colour= size)) +
+  geom_point(size=2, mapping=aes(shape= size), alpha= 0.8) +
+  geom_smooth(method= 'loess', se= FALSE) +
+  #geom_line(alpha=0.2, size=4) +
+  scale_colour_manual('Tamanho da propriedade', values=c('red', 'orange', 'purple')) + 
+  theme_minimal() +
+  xlab(NULL) +
+  ylab('Perda líquida absoluta acumulada (Mha)')
 
 
 
